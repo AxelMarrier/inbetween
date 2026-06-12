@@ -68,9 +68,67 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    function init_color_wheel(){
+        let canvas = document.querySelector('#color-wheel');
+        let ctx = canvas.getContext('2d');
+        let img = ctx.createImageData(canvas.width, canvas.height);
 
+        let radius = canvas.width / 2;
+        ctx.beginPath();
+        ctx.arc(radius, radius, radius, 0, 360);
+        ctx.stroke();
 
+        for (let x = -radius; x < radius; x++) {
+            for (let y = -radius; y < radius; y++) {
+                let dx = x / radius;
+                let dy = y /radius;
+                let distance = dx**2 + dy**2
 
+                if(distance <= 1){
+                    let angle = Math.atan2(dy, dx);
+                    let hue = (angle * 180 / Math.PI + 360) % 360;
+                    let sat = Math.sqrt(distance);
+                    let rgb = hsvToRgb(hue, sat, 1);
+
+                    let px = ((y + radius)*canvas.width + (x + radius)) * 4
+                    img.data[px] = rgb[0];
+                    img.data[px + 1] = rgb[1];
+                    img.data[px + 2] = rgb[2];
+                    img.data[px + 3] = 255;
+                }
+            }
+        }
+
+        ctx.putImageData(img,0,0);
+
+            function hsvToRgb(hue, sat, value){
+                let C = sat * value;
+                let X = C * (1 - Math.abs((hue / 60 ) % 2 - 1));
+                let M = value - C;
+
+                let r = 0;
+                let g = 0;
+                let b = 0;
+                
+                if(hue < 60){
+                    r = C; g = X; b = 0;
+                } else if (hue < 120){
+                    r = X; g = C; b = 0;
+                } else if (hue < 180){
+                    r = 0; g = C; b = X;
+                } else if (hue < 240){
+                    r = 0; g = X; b = C;
+                } else if (hue < 300){
+                    r = X; g = 0; b = C;
+                } else {
+                    r = C; g = 0; b = X;
+                }
+
+                return [(r + M) * 255,(g + M) * 255,(b + M) * 255];
+            }
+    }
+
+    // EVENT POUR DESSINER
     CANVAS.addEventListener('mousedown', (e) => {
         if(!bDessine){
             bDessine = true;
@@ -94,5 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     init_couleur();
+
+    init_color_wheel();
 })
+
+
 
