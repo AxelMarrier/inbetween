@@ -45,22 +45,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("rouge")
                 return;
             }
-            if(125 < e.offsetX && e.offsetX < 175){
+            if(100 < e.offsetX && e.offsetX < 150){
                 CTX.strokeStyle = "green";
                 console.log("vert")
                 return;
             }
-            if(200 < e.offsetX && e.offsetX < 250){
+            if(175 < e.offsetX && e.offsetX < 225){
                 console.log("bleu");
                 CTX.strokeStyle = "blue";
                 return;
             }
-            if(275 < e.offsetX && e.offsetX < 325){
+            if(250 < e.offsetX && e.offsetX < 300){
                 console.log("noir");
                 CTX.strokeStyle = "black";
                 return;
             }
-            if(350 < e.offsetX && e.offsetX < 400){
+            if(325 < e.offsetX && e.offsetX < 375){
                 console.log("blanc");
                 CTX.strokeStyle = "white";
                 return;
